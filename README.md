@@ -5,7 +5,7 @@
 ### **Cloner le projet**
 Clonez ce dépôt sur votre machine locale :
 ```bash
-git clone [https://github.com/ton-utilisateur/nom-du-projet.git](https://github.com/vgrateauge1/Le-Grand-Ordonnateur.git)
+git clone https://github.com/vgrateauge1/Le-Grand-Ordonnateur.git
 cd Le-Grand-Ordonnateur
 ```
 
