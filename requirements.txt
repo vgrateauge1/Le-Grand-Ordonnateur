@@ -1,0 +1,15 @@
+# Framework Django
+Django>=4.2,<5.0
+
+# Pour l'environnement de développement
+django-environ  # Pour la gestion des variables d'environnement
+gunicorn        # Serveur WSGI (pour le déploiement en production)
+
+# Outils complémentaires (si nécessaire)
+djangorestframework  # Pour développer des APIs REST
+Pillow               # Pour le traitement d'images
+psycopg2             # Pour PostgreSQL (si utilisé)
+mysqlclient          # Pour MySQL (si utilisé)
+
+# Outils de tests
+pytest-django
