@@ -13,6 +13,31 @@ class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
+    @action(detail=False, methods=['post'])
+    def upsert(self, request):
+        """
+        Custom action to create or update a product (upsert).
+        """
+        product_id = request.data.get('id')  # Assuming `id` is provided in the request
+        data = request.data
+
+        if product_id:
+            try:
+                product = Product.objects.get(id=product_id)
+                serializer = ProductSerializer(product, data=data, partial=True)
+                if serializer.is_valid():
+                    serializer.save()
+                    return Response(serializer.data, status=status.HTTP_200_OK)
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            except Product.DoesNotExist:
+                return Response({'error': 'Product not found.'}, status=status.HTTP_404_NOT_FOUND)
+        else:
+            serializer = ProductSerializer(data=data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
     @action(detail=True, methods=['post'])
     def add_product_material(self, request, pk=None):
         """
