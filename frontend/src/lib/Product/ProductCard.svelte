@@ -23,6 +23,7 @@
               <div class="mdc-typography--subtitle2">
                  Created: {new Date(product.creation_date).toLocaleString()}
               </div>
+              <div>{product.is_active?'active':'inactive'}</div>
           </div>
           <Actions style="padding: 0">
               <ActionIcons>
@@ -39,6 +40,5 @@
       </div>
 
       <p >{product.description}</p>
-      <p >€{product.retail_price.toFixed(2)}</p>
   </Content>
 </Card>

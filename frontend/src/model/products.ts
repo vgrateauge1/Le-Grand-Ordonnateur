@@ -2,13 +2,16 @@ export interface Product {
   id?: number;
   name: string;
   description: string;
-  retail_price: number;
-  creation_date?: string; // DateTime field will be represented as a string in ISO format
-  modification_date?: string; // Same as creation_date
-  version: string;
+  creation_date: string; // ISO 8601 datetime string
+  modification_date?: string; // ISO 8601 datetime string
   is_active: boolean;
 }
 
-interface SetActiveVersionData {
-  version: string;
+export interface Version {
+  product: number;
+  version: string; // e.g., "1.0"
+  retail_price: number;
+  is_active: boolean;
+  creation_date: string; // ISO 8601 datetime string
+  modification_date: string; // ISO 8601 datetime string
 }

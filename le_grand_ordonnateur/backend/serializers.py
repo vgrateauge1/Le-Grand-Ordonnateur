@@ -8,17 +8,19 @@ from .models.material.material_supplier import MaterialSupply
 
 from .models.supplier.supplier import Supplier
 
-# Serializer for the Product model
-class ProductSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Product
-        fields = '__all__'
 
 # Serializer for the ProductVersion model
 class ProductVersionSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProductVersion
         fields = '__all__'
+# Serializer for the Product model
+class ProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = '__all__'
+
+
 
 # Serializer for the ProductMaterial model
 class ProductMaterialSerializer(serializers.ModelSerializer):

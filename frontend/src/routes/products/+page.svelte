@@ -5,7 +5,6 @@
   import { deleteProduct, getAllProducts } from '../../api/products.js';
   import type {Product} from "../../model/products";
   import Button, { Icon } from '@smui/button';
-  import Paper from "@smui/paper";
   import YesNoDialog from '$lib/shared/YesNoDialog.svelte';
 
   let products : Product[] = []
