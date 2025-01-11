@@ -17,7 +17,7 @@
     let {materials, suppliers, refresh, onSubmit, bomLines } = $props()
     let defaultBomLine: BomLine = { material: -1, supplier: -1, unit_price: 0, quantity: 0 }
 
-    let tab = [...bomLines] 
+    let tab = $state([...bomLines]) 
     // dialogs
     let openMaterial: boolean = $state(false)
     let openSupplier: boolean = $state(false)

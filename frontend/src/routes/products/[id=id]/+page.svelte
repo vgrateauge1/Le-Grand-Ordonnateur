@@ -67,6 +67,7 @@
 					title=value.name
 					id=`${value.id}`
 					goto(`/products/${value.id}`)
+					isCreation=false
 				}
 			})
 	}

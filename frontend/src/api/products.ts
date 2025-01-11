@@ -71,7 +71,7 @@ export const getBOM = async (productId: String) => {
     return response.data; // Return the BOM data
   } catch (error) {
     console.error('Error fetching BOM:', error);
-    throw error;
+    return []
   }
 };
 

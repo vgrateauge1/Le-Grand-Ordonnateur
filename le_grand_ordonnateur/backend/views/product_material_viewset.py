@@ -25,8 +25,8 @@ class ProductMaterialViewSet(viewsets.ModelViewSet):
 
             if not product_materials.exists():
                 return Response(
-                    {'error': 'No materials found for the given product and version.'},
-                    status=status.HTTP_404_NOT_FOUND
+                    [],
+                    status=status.HTTP_200_OK
                 )
 
             serializer = self.get_serializer(product_materials, many=True)
