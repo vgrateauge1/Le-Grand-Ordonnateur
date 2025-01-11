@@ -1,21 +1,17 @@
 <script lang="ts">
     import Textfield from '@smui/textfield';
-    import Button from '@smui/button';
+    import Button, { Icon, Label } from '@smui/button';
     import Card, { Content, Actions } from '@smui/card';
 	  import type { Version } from '../../model/products';
     import Select, {Option} from '@smui/select'
 
-  
-
-
     export let onSubmit: (version: Version) => void;
     export let versions: Version[] = [];
     export let version: Version
+    export let id: string
 
     let vl = versions.map(x=>x.version)
-    vl.push('other')
     let selected = version.version
-    let price = version.retail_price ?? 0
   
     let errors: Partial<Record<keyof Version, string>> = {};
   
@@ -35,7 +31,7 @@
   
     function handleSubmit() {
       if (validateForm()) {
-        onSubmit({version:selected=='other'?version.version:selected, retail_price:version.retail_price, product:version.product, is_active:true} as Version);
+        onSubmit({version:selected=='other'?version.version:selected, retail_price:version.retail_price, product:parseInt(id), is_active:true} as Version);
       }
     }
   
@@ -53,6 +49,7 @@
       <form on:submit|preventDefault={handleSubmit}>
         <div class="form-field flex-row">
             <Select bind:value={selected} label="Version">
+                <Option value={'other'}>new</Option>
                 {#each vl as v}
                     <Option value={v}>{v}</Option>
                 {/each}
@@ -81,27 +78,17 @@
           </Textfield>
         </div>
   
-        <Actions>
-          <Button variant="raised" type="submit">
-            <span class="mdc-button__label">Save</span>
+        <div class="flex-row end">
+          <Button variant="unelevated" type="submit" class="button-shaped-round">
+            <Icon class="material-icons">save</Icon>
+            <Label>Save</Label>
           </Button>
-        </Actions>
+        </div>
       </form>
     </Content>
   </Card>
   
   <style>
-    .product-version-form {
-      max-width: 500px;
-      margin: 1rem auto;
-    }
-  
-    .form-title {
-      margin-bottom: 1.5rem;
-      font-size: 1.25rem;
-      font-weight: 500;
-    }
-  
     .form-field {
       margin-bottom: 1.5rem;
     }

@@ -4,7 +4,7 @@ from rest_framework.response import Response
 
 from backend.models.product.product import Product
 from backend.models.product.product_version import ProductVersion
-from backend.serializers import ProductSerializer, ProductVersionSerializer
+from backend.serializers import ProductVersionSerializer
 
 
 class ProductVersionViewSet(viewsets.ModelViewSet):
@@ -20,7 +20,6 @@ class ProductVersionViewSet(viewsets.ModelViewSet):
             serializer = self.get_serializer(versions, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response([], status=status.HTTP_200_OK)
-
 
     @action(detail=False, methods=['post'], url_path='upsert')
     def upsert(self, request):

@@ -15,3 +15,11 @@ export interface Version {
   creation_date: string; // ISO 8601 datetime string
   modification_date: string; // ISO 8601 datetime string
 }
+
+export interface BomLine {
+  material: number;
+  supplier: number;
+  unit_price: number;
+  quantity: number;
+  total?: number;
+}

@@ -1,9 +1,6 @@
 <script lang="ts">
-  import Card, { ActionButtons, ActionIcons, Actions, Content } from '@smui/card';
-  import Chip from '@smui/chips';
-  import { Label } from '@smui/common';
+  import Card, { ActionIcons, Actions, Content } from '@smui/card';
   import type { Product } from '../../model/products';
-  import Button, { Icon } from '@smui/button';
   import IconButton from '@smui/icon-button';
   import { goto } from '$app/navigation';
 

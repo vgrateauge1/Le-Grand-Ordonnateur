@@ -16,7 +16,7 @@
           if(value){
             products=value
           }
-        }).catch((reason)=>console.log(reason.message));
+        });
   });
 
   const handleDelete = (p: Product)=>{
@@ -34,8 +34,8 @@
           if(value){
             products=value
           }
-        }).catch((reason)=>console.log(reason.message));
-      }).catch(()=>console.log('failed to delete'))
+        });
+      })
   }
 </script>
 

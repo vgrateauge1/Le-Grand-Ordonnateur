@@ -4,7 +4,6 @@ from .models.product.product_version import ProductVersion
 from .models.product.product_material import ProductMaterial
 
 from .models.material.material import Material
-from .models.material.material_supplier import MaterialSupply
 
 from .models.supplier.supplier import Supplier
 
@@ -14,13 +13,34 @@ class ProductVersionSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProductVersion
         fields = '__all__'
+
 # Serializer for the Product model
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = '__all__'
 
-
+class BomLineSerializer(serializers.Serializer):
+    material = serializers.PrimaryKeyRelatedField(
+        queryset=Material.objects.all(),
+        required=True
+    )
+    supplier = serializers.PrimaryKeyRelatedField(
+        queryset=Supplier.objects.all(),
+        required=True
+    )
+    unit_price = serializers.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        required=True,
+        min_value=0.01
+    )
+    quantity = serializers.FloatField(
+        required=True,
+        min_value=0
+    )
+    def validate(self, data):
+        return data
 
 # Serializer for the ProductMaterial model
 class ProductMaterialSerializer(serializers.ModelSerializer):
@@ -34,11 +54,6 @@ class MaterialSerializer(serializers.ModelSerializer):
         model = Material
         fields = '__all__'
 
-# Serializer for the MaterialSupply model
-class MaterialSupplySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = MaterialSupply
-        fields = '__all__'
 
 # Serializer for the Supplier model
 class SupplierSerializer(serializers.ModelSerializer):
