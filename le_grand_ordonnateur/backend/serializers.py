@@ -1,4 +1,7 @@
 from rest_framework import serializers
+
+from .models.Kanban.Column import Column
+from .models.Kanban.Task import Task
 from .models.product.product import Product
 from .models.product.product_version import ProductVersion
 from .models.product.product_material import ProductMaterial
@@ -59,4 +62,16 @@ class MaterialSerializer(serializers.ModelSerializer):
 class SupplierSerializer(serializers.ModelSerializer):
     class Meta:
         model = Supplier
+        fields = '__all__'
+
+class TaskSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Task
+        fields = ['id', 'title', 'description', 'column', 'position']
+
+class ColumnSerializer(serializers.ModelSerializer):
+    tasks = TaskSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Column
         fields = '__all__'
