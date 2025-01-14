@@ -8,8 +8,6 @@ gunicorn        # Serveur WSGI (pour le déploiement en production)
 # Outils complémentaires (si nécessaire)
 djangorestframework  # Pour développer des APIs REST
 Pillow               # Pour le traitement d'images
-psycopg2             # Pour PostgreSQL (si utilisé)
-mysqlclient          # Pour MySQL (si utilisé)
-
+django-cors-headers
 # Outils de tests
 pytest-django
