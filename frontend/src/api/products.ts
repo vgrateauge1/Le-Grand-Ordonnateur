@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type {BomLine, Product, Version} from "../model/products";
+import type {BomLine, Product, Version, Stock} from "../model/products";
 import { API_BASE_URL } from './constants';
 
 // Getting the API base URL from the environment variables
@@ -51,6 +51,26 @@ export const getProductVersions = async (productId: String) : Promise<Version[]>
     return response.data;
   } catch (error) {
     console.error('Error getting versions:', error);
+    throw error;
+  }
+};
+
+export const getStockByProductId = async (productId: number): Promise<Stock> => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/product-stock/${productId}`);
+    return response.data;
+  } catch (error) {
+    console.error(`Error fetching stock for product ID ${productId}:`, error);
+    throw error;
+  }
+};
+
+export const updateStock = async (productId: number, quantity: number): Promise<Stock> => {
+  try {
+    const response = await axios.post(`${API_BASE_URL}/product-stock/`, { product: productId, quantity });
+    return response.data;
+  } catch (error) {
+    console.error(`Error updating stock for product ID ${productId}:`, error);
     throw error;
   }
 };

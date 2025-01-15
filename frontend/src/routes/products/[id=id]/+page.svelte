@@ -1,7 +1,7 @@
 <script lang="ts">
 
 	import ProductForm from "$lib/Product/ProductForm.svelte";
-	import { getBOM, getProductById, getProductVersions, upsertBOM, upsertProduct, upsertVersion } from '../../../api/products';
+	import { getBOM, getProductById, getProductVersions, upsertBOM, upsertProduct, upsertVersion, getStockByProductId } from '../../../api/products';
 	import type {BomLine, Product, Version} from "../../../model/products";
 	import {goto} from "$app/navigation";
 	import { page } from '$app/state';
@@ -11,10 +11,12 @@
 	import Tab from "@smui/tab";
 	import { Label } from '@smui/button';
 	import VersionForm from "$lib/Product/VersionForm.svelte";
-		import BomDashboard from "$lib/Product/BOMDashboard.svelte";
+	import BomDashboard from "$lib/Product/BOMDashboard.svelte";
 	import MaterialForm from "$lib/Material/MaterialForm.svelte";
+	import StockForm from "$lib/Product/StockForm.svelte";
 	import type { Material } from "../../../model/material";
 	import type { Supplier } from "../../../model/supplier";
+	import type { Stock } from "../../../model/products";
 	import { getAllMaterials } from "../../../api/material";
 	import { getAllSuppliers } from "../../../api/supplier";
 
@@ -39,6 +41,7 @@
 	let version: Version = $state(defaultVersion)
 	let isCreation = $state(false)
 	let id =  $state('')
+	let productStock: Stock | null = null;
 
 	//BOM
 	let materials: Material[] = $state([])
@@ -117,8 +120,19 @@
 				getBOM(id).then((value)=>{
 					bom=value
 				})
-			case 'Manufacturing':
+			
 			case 'Stock':
+				getStockByProductId(parseInt(id))
+					.then((value) => {
+						productStock = value; // Assurez-vous d'avoir défini `productStock` quelque part
+					})
+					.catch((error) => {
+						console.error('Error fetching stock:', error);
+					});
+				break;
+			case 'Manufacturing':
+			default:
+				throw error(404, { message: `Tab "${a}" not found` });
 		}
 	}
 </script>
@@ -142,5 +156,12 @@
 		{#if active === 'Bill of material'}
 			<BomDashboard materials={materials} suppliers={suppliers} bomLines={bom} refresh={()=>handleTabChange(active)} onSubmit={handleBomSubmit}/>
 		{/if}
+		{#if active === 'Stock'}
+		<!-- Appel du StockForm -->
+		{#if productStock}
+			<StockForm productStock={productStock} onRefresh={() => handleTabChange('Stock')} />
+		{/if}
+		{/if}
+
 	{/if}
 </div>
