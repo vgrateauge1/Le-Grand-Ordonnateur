@@ -1,5 +1,9 @@
 node_modules
 
+package-lock.json
+static/smui-dark.css
+static/smui.css
+
 # Output
 .output
 .vercel
