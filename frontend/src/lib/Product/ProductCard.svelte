@@ -31,6 +31,10 @@
         <div class="mdc-typography--subtitle2">
           Created: {new Date(product.creation_date).toLocaleString()}
         </div>
+        <div>
+          <h5 style="margin: 0">{product.name}</h5>
+          <div>Quantity: {product.quantity}</div>
+        </div>
         <div>{product.is_active ? 'active' : 'inactive'}</div>
       </div>
 
@@ -60,6 +64,11 @@
               class="material-icons"
               onclick={handleDelete}
               title="Delete">delete</IconButton>
+            <IconButton
+                class="material-icons"
+                onclick={() => { goto(`/products/${product.id}/stock`) }}
+                title="Manage Stock">inventory</IconButton>
+
           </ActionIcons>
         </Actions>
       {/if}
