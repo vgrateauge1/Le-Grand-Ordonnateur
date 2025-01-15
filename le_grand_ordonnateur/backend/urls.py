@@ -5,15 +5,12 @@ from backend.views.product_version_viewset import ProductVersionViewSet
 from backend.views.product_viewset import ProductViewSet
 from backend.views.supplier_viewset import SupplierViewSet
 from backend.views.task_viewset import TaskViewSet
-<<<<<<< HEAD
 from django.contrib.auth import views as auth_views
 from django.http import JsonResponse
 from django.middleware.csrf import get_token
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
-=======
 from backend.views.product_stock_viewset import ProductStockViewSet
->>>>>>> d79b558 (feat - product stock)
 
 # Create a router and register our viewsets
 router = DefaultRouter()
