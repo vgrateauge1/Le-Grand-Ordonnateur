@@ -8,16 +8,17 @@
   let connected: boolean = $state(false)
   let csrf = $state('')
 
-  onMount(async ()=>{
-    csrf = await getCsrfToken()
-  });
-
   const handleLogin = async (username:string ,password: string) => {
+    csrf = await getCsrfToken()
     connected = await connect(username, password, csrf)
   }
 
   const handleLogout = async() => {
-    connected = await deconnect(csrf)
+    csrf = await getCsrfToken()
+    const ok  = await deconnect(csrf)
+    if(ok){
+      connected=false
+    }
   }
 </script>
 

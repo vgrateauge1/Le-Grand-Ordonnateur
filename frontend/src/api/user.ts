@@ -23,13 +23,13 @@ export const connect = async (username: string, password: string, csrf:string): 
 
 export const deconnect = async (csrf: string): Promise<boolean> => {
     try {
-      await axios.post(`${API_BASE_URL}/logout/`,{
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'X-CSRFToken': csrf,  // Add CSRF token to headers
-        },
-        withCredentials: true,
-      });
+    //   await axios.post(`${API_BASE_URL}/logout/`,{
+    //     headers: {
+    //         'Content-Type': 'application/x-www-form-urlencoded',
+    //         'X-CSRFToken': csrf,  // Add CSRF token to headers
+    //     },
+    //     withCredentials: true,
+    //   });
       return true;
     } catch (error) {
       console.error('Error deconnecting:', error);
