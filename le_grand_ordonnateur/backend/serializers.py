@@ -10,6 +10,8 @@ from .models.product.product_stock import ProductStock
 from .models.material.material import Material
 
 from .models.supplier.supplier import Supplier
+from .models.manufacturing.manufacturing import Manufacturing
+from .models.manufacturing.step import Step
 
 # Serializer for the ProductStock model
 class ProductStockSerializer(serializers.ModelSerializer):
@@ -81,3 +83,23 @@ class ColumnSerializer(serializers.ModelSerializer):
     class Meta:
         model = Column
         fields = '__all__'
+
+class StepSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Step
+        fields = '__all__'
+
+
+class ManufacturingSerializer(serializers.ModelSerializer):
+    steps = StepSerializer(many=True, read_only=True)  # This will include all related steps
+
+    class Meta:
+        model = Manufacturing
+        fields = ['id', 'name', 'product', 'version', 'steps']
+        validators = [
+            serializers.UniqueTogetherValidator(
+                queryset=Manufacturing.objects.all(),
+                fields=['product', 'version'],
+                message="A manufacturing process for this product version already exists."
+            )
+        ]

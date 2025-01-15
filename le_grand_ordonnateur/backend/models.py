@@ -9,3 +9,6 @@ from .models.supplier.supplier import Supplier
 
 from .models.Kanban.Column import Column
 from .models.Kanban.Task import Task
+
+from .models.manufacturing.manufacturing import Manufacturing
+from .models.manufacturing.step import Step
