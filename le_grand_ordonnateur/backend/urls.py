@@ -1,4 +1,5 @@
 from backend.views.column_viewset import ColumnViewSet
+from backend.views.manufacturing_viewset import ManufacturingViewSet
 from backend.views.material_viewset import MaterialViewSet
 from backend.views.product_material_viewset import ProductMaterialViewSet
 from backend.views.product_version_viewset import ProductVersionViewSet
@@ -22,6 +23,7 @@ router.register(r'materials', MaterialViewSet)
 router.register(r'suppliers', SupplierViewSet)
 router.register(r'columns', ColumnViewSet)
 router.register(r'tasks', TaskViewSet)
+router.register(r'manufacturing', ManufacturingViewSet)
 
 def get_csrf_token(request):
     token = get_token(request)

@@ -19,6 +19,10 @@
 	import type { Stock } from "../../../model/products";
 	import { getAllMaterials } from "../../../api/material";
 	import { getAllSuppliers } from "../../../api/supplier";
+	import ManufacturingForm from "$lib/Manufacturing/ManufacturingForm.svelte";
+	import type {Manufacturing, ManufacturingFormData, StepFormData} from "../../../model/manufacturing";
+	import { getManufacturing, upsertManufacturing } from "../../../api/manufacturing";
+	import ManufacturingStepViewer from "$lib/Manufacturing/ManufacturingStepViewer.svelte";
 
 	let active = $state('Info');
 	let title = $state('')
@@ -47,6 +51,8 @@
 	let materials: Material[] = $state([])
 	let suppliers: Supplier[] = $state([])
 	let bom : BomLine[] = $state([])
+
+	let manufacturing: Manufacturing | null = $state(null);
 
 	onMount(() => {
 		id = page.url.pathname.split('/').pop() ?? '';
@@ -91,6 +97,15 @@
 		})
 	}
 
+	const handleManufacturingSubmit = async (manufacturingData: ManufacturingFormData) => {
+		await upsertManufacturing(id, manufacturingData)
+			.then((value) => {
+				manufacturing = value;
+				handleTabChange(active);
+        	});
+	};
+
+
 	const handleTabChange = (a: String) =>{
 		switch(a){
 			case 'Info':
@@ -120,7 +135,7 @@
 				getBOM(id).then((value)=>{
 					bom=value
 				})
-			
+
 			case 'Stock':
 				getStockByProductId(parseInt(id))
 					.then((value) => {
@@ -131,6 +146,10 @@
 					});
 				break;
 			case 'Manufacturing':
+                getManufacturing(id).then((value) => {
+        			manufacturing = value || null;
+    			});
+				break
 			default:
 				throw error(404, { message: `Tab "${a}" not found` });
 		}
@@ -155,6 +174,19 @@
 		{/if}
 		{#if active === 'Bill of material'}
 			<BomDashboard materials={materials} suppliers={suppliers} bomLines={bom} refresh={()=>handleTabChange(active)} onSubmit={handleBomSubmit}/>
+		{/if}
+		{#if active === 'Manufacturing'}
+			{#if manufacturing!=null}
+				<ManufacturingStepViewer
+					manufacturing={manufacturing}
+				/>
+    		{:else}
+				<ManufacturingForm
+					onSubmit={handleManufacturingSubmit}
+					manufacturing={manufacturing}
+					refresh={() => handleTabChange(active)}
+				/>
+    		{/if}
 		{/if}
 		{#if active === 'Stock'}
 		<!-- Appel du StockForm -->
