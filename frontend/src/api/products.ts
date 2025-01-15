@@ -5,12 +5,49 @@ import { API_BASE_URL } from './constants';
 // Getting the API base URL from the environment variables
 const API_URL = `${API_BASE_URL}/products`;// Ensure the URL is a string
 
+
 export const getAllProducts = async () : Promise<Product[]> => {
   try {
     const response = await axios.get(`${API_URL}`);
     return response.data;
   } catch (error) {
     console.error('Error fetching products:', error);
+    throw error;
+  }
+};
+
+// Fetch paginated products
+export const getPaginatedProducts = async (page: number, size: number): Promise<{ data: Product[]; total: number }> => {
+  try {
+    const response = await axios.get(`${API_URL}/`, {
+      params: { page, size },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching paginated products:', error);
+    throw error;
+  }
+};
+
+export const getActiveProducts = async (
+  page: number,
+  size: number,
+  search?: string
+): Promise<{ data: Product[]; total: number }> => {
+  try {
+    const response = await axios.get(`${API_URL}/active/`, {
+      params: {
+        page,
+        size,
+        search,  // <-- Pass the search parameter here
+      },
+    });
+    return {
+      data: response.data.results,
+      total: response.data.count,
+    };
+  } catch (error) {
+    console.error('Error fetching active products:', error);
     throw error;
   }
 };
