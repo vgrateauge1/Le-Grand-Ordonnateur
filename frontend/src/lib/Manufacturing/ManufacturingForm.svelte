@@ -66,7 +66,6 @@
             };
             onSubmit(formData)
                 .then(() => {
-                    console.log("here");
                   refresh();
                 });
         }

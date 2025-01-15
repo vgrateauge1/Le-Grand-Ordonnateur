@@ -21,7 +21,7 @@
 	import { getAllSuppliers } from "../../../api/supplier";
 	import ManufacturingForm from "$lib/Manufacturing/ManufacturingForm.svelte";
 	import type {Manufacturing, ManufacturingFormData, StepFormData} from "../../../model/manufacturing";
-	import { getManufacturing, upsertManufacturing } from "../../../api/manufacturing";
+	import {getManufacturing, incrementStock, upsertManufacturing} from "../../../api/manufacturing";
 	import ManufacturingStepViewer from "$lib/Manufacturing/ManufacturingStepViewer.svelte";
 
 	let active = $state('Info');
@@ -105,6 +105,13 @@
         	});
 	};
 
+	const handleManufacturingIncrements = async () => {
+		await incrementStock(id)
+				.then((value) => {
+					productStock = value;
+				});
+	};
+
 
 	const handleTabChange = (a: String) =>{
 		switch(a){
@@ -178,7 +185,9 @@
 		{#if active === 'Manufacturing'}
 			{#if manufacturing!=null}
 				<ManufacturingStepViewer
+					onSubmit={handleManufacturingIncrements}
 					manufacturing={manufacturing}
+					refresh={() => handleTabChange(active)}
 				/>
     		{:else}
 				<ManufacturingForm
