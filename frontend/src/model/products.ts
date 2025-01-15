@@ -4,6 +4,7 @@ export interface Product {
   description: string;
   creation_date: string; // ISO 8601 datetime string
   modification_date?: string; // ISO 8601 datetime string
+  quantity: number;
   is_active: boolean;
 }
 
@@ -22,4 +23,10 @@ export interface BomLine {
   unit_price: number;
   quantity: number;
   total?: number;
+}
+
+export interface Stock {
+  product: number;
+  quantity: number;
+  last_updated: string; // ISO 8601 datetime string
 }
