@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',
     'backend',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [

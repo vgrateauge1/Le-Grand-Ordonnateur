@@ -5,10 +5,12 @@
   import Paper from '@smui/paper';
   import HelperText from '@smui/textfield/helper-text';
   import type { Product } from '../../model/products';
+  import { updateStock } from '../../api/products';
   import Button, { Icon, Label } from '@smui/button';
 
   export let onSubmit: (product: Product) => void;
   export let product: Product;
+  product.quantity = 0;
 
   let errors: Partial<Record<keyof Product, string>> = {};
   
@@ -23,14 +25,25 @@
     if (product.description.trim().length <= 0) {
       errors.description = 'Description is required';
     }
+    if (product.quantity === undefined || product.quantity < 0) {
+      errors.quantity = 'Stock quantity must be a positive number';
+    } 
 
     return Object.keys(errors).length === 0;
   }
 
   // Handle form submission
-  function handleSubmit() {
+  async function handleSubmit() {
     if (validateForm()) {
-      onSubmit(product);
+      try {
+        const createdProduct = await onSubmit(product); // Crée le produit
+        if (product.id) {
+          // Initialise le stock
+          await updateStock(product.id, product.quantity || 0);
+        }
+      } catch (error) {
+        console.error('Error creating product or updating stock:', error);
+      }
     }
   }
 </script>
@@ -54,6 +67,14 @@
       invalid={!!errors.description}
     >
     </Textfield>
+
+    <Textfield
+    label="Stock Quantity"
+    type="number"
+    bind:value={product.quantity}
+    invalid={!!errors.quantity}
+    > </Textfield>
+
 
     <!-- Product Active Status -->
     <FormField>

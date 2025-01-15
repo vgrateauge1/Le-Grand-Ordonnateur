@@ -5,11 +5,17 @@ from .models.Kanban.Task import Task
 from .models.product.product import Product
 from .models.product.product_version import ProductVersion
 from .models.product.product_material import ProductMaterial
+from .models.product.product_stock import ProductStock
 
 from .models.material.material import Material
 
 from .models.supplier.supplier import Supplier
 
+# Serializer for the ProductStock model
+class ProductStockSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductStock
+        fields = '__all__'
 
 # Serializer for the ProductVersion model
 class ProductVersionSerializer(serializers.ModelSerializer):
