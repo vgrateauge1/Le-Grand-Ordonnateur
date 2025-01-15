@@ -9,7 +9,7 @@
 <TopAppBar variant="static">
     <Row class="flex items-center">
         <Section >
-          <Button href="/" class="text-white">LGO</Button>
+          <Button href="/" class="text-white">Le Grand Ordonnateur</Button>
         </Section>
         <div style="width: 10%"></div>
         <Section align="end" toolbar class="flex space-x-4">
