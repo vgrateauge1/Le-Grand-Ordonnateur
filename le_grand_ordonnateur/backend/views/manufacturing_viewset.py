@@ -9,12 +9,14 @@ from django.db import transaction
 from backend.models.manufacturing.manufacturing import Manufacturing
 from backend.models.manufacturing.step import Step
 from backend.models.product.product import Product
-from backend.serializers import ManufacturingSerializer
+from backend.models.product.product_stock import ProductStock
+from backend.serializers import ManufacturingSerializer, ProductStockSerializer
 
 
 class ManufacturingViewSet(viewsets.ModelViewSet):
     queryset = Manufacturing.objects.all()
     serializer_class = ManufacturingSerializer
+    product_stock_serializer_class = ProductStockSerializer
 
     @action(detail=False, methods=['get'], url_path='(?P<product_id>[^/.]+)')
     def get_manufacturing(self, request, product_id=None):
@@ -74,3 +76,28 @@ class ManufacturingViewSet(viewsets.ModelViewSet):
             self.serializer_class(manufacturing).data,
             status=status.HTTP_200_OK
         )
+
+    @action(detail=False, methods=['put'], url_path='(?P<product_id>[^/.]+)/increment')
+    def increment_stock(self, request, product_id=None):
+        product = get_object_or_404(Product, id=product_id)
+
+        try:
+            with transaction.atomic():
+                # Get or create the product stock
+                product_stock, created = ProductStock.objects.get_or_create(
+                    product=product,
+                    defaults={'quantity': 0}
+                )
+
+                product_stock.quantity += 1
+                product_stock.save()
+
+            return Response(
+                self.product_stock_serializer_class(product_stock).data,
+                status=status.HTTP_200_OK
+            )
+        except Exception as e:
+            return Response(
+                {'error': str(e)},
+                status=status.HTTP_400_BAD_REQUEST
+            )

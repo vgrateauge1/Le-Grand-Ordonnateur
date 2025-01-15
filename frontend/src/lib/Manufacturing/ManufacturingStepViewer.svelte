@@ -6,8 +6,9 @@
     import DataTable, { Head, Body, Row, Cell } from '@smui/data-table';
     import FormField from '@smui/form-field';
     import { onDestroy } from 'svelte';
+    import { incrementStock } from "../../api/manufacturing";
 
-    let { manufacturing }: { manufacturing: Manufacturing } = $props();
+    let { onSubmit, manufacturing, refresh } = $props();
 
     interface StepState {
         order: number;
@@ -21,7 +22,7 @@
     let allStepsCompleted = $derived(stepStates.length > 0 && stepStates.every(state => state.isCompleted));
 
     function handleSubmit() {
-        console.log('here');
+        onSubmit().then(() => {refresh();})
     }
 
     function parseTimeToSeconds(timeStr: string): number {

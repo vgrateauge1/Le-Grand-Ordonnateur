@@ -27,3 +27,13 @@ export const upsertManufacturing = async (productId:String, data: ManufacturingF
         throw error;
     }
 }
+
+export const incrementStock = async (productId:String) => {
+    try {
+        const response = await axios.put(`${API_URL}/${productId}/increment/`);
+        return response.data;
+    } catch (error) {
+        console.error('Error creating/updating material:', error);
+        throw error;
+    }
+}
